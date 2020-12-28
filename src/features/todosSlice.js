@@ -13,7 +13,7 @@ export default function todosReducer(state = initialState, action) {
   switch (action.type) {
     case 'todos/todoAdded': {
       return [
-        ...state.todos,
+        ...state,
         {
           id: nextTodoId(state.todos),
           text: action.payload,
@@ -30,6 +30,18 @@ export default function todosReducer(state = initialState, action) {
         return {
           ...todo,
           completed: !todo.completed
+        }
+      })
+    }
+    case 'todos/todoColorChange': {
+      return state.map(todo => {
+        if (todo.id !== action.payload.id) {
+          return todo
+        }
+
+        return {
+          ...todo,
+          color: action.payload.color
         }
       })
     }
