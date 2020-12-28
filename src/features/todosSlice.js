@@ -45,6 +45,13 @@ export default function todosReducer(state = initialState, action) {
         }
       })
     }
+    case 'todos/todoDelete': {
+      return state.map(todo => {
+        if (todo.id != action.payload.id) {
+          return todo
+        }
+      })
+    }
     default:
       return state
   }
