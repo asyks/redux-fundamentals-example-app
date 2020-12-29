@@ -46,7 +46,7 @@ export default function todosReducer(state = initialState, action) {
       })
     }
     case 'todos/todoDelete': {
-      return state.map(todo => {
+      return state.filter(todo => {
         if (todo.id != action.payload.id) {
           return todo
         }
@@ -61,7 +61,7 @@ export default function todosReducer(state = initialState, action) {
       })
     }
     case 'todos/todoClearCompleted': {
-      return state.map(todo => {
+      return state.filter(todo => {
         if (!todo.completed) {
           return todo
         }
