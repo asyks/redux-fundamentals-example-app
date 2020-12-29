@@ -21,7 +21,7 @@ export default function filtersReducer(state = initialState, action) {
       }
     }
     case 'filters/removeColorFilter': {
-      state.colors.filter(color => {
+      return state.colors.filter(color => {
         if (color != action.payload) {
           return color
         }
