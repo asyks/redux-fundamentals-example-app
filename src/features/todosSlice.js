@@ -60,6 +60,13 @@ export default function todosReducer(state = initialState, action) {
         }
       })
     }
+    case 'todos/todoClearCompleted': {
+      return state.map(todo => {
+        if (!todo.completed) {
+          return todo
+        }
+      })
+    }
     default:
       return state
   }
