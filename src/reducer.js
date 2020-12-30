@@ -1,3 +1,5 @@
+import { combineReducers } from 'redux'
+
 import filtersReducer from './features/filtersSlice'
 import todosReducer from './features/todosSlice'
 
@@ -7,3 +9,10 @@ export default function rootReducer(state = {}, action) {
     filters: filtersReducer(state.filters, action)
   }
 }
+
+const rootReducer = combineReducers({
+  todos: todosReducer,
+  filters: filtersReducer,
+})
+
+export default rootReducer
