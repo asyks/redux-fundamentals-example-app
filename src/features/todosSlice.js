@@ -1,10 +1,6 @@
-const initialState = [
-  { id: 0, text: 'Learn React', completed: true },
-  { id: 1, text: 'Learn Redux', completed: false, color: 'purple' },
-  { id: 2, text: 'Build something fun!', completed: false, color: 'blue' }
-],
+const initialState = []
 
-function nextTodoId(todos) {
+function nextTodoId(todos = []) {
   const maxId = todos.reduce((maxId, todo) => Math.max(todo.id, maxId), -1)
   return maxId + 1
 }
@@ -15,7 +11,7 @@ export default function todosReducer(state = initialState, action) {
       return [
         ...state,
         {
-          id: nextTodoId(state.todos),
+          id: nextTodoId(state),
           text: action.payload,
           completed: false
         }
@@ -46,11 +42,7 @@ export default function todosReducer(state = initialState, action) {
       })
     }
     case 'todos/todoDelete': {
-      return state.filter(todo => {
-        if (todo.id != action.payload.id) {
-          return todo
-        }
-      })
+      return state.filter(todo => todo.id !== action.payload.id)
     }
     case 'todos/todoCompleteAll': {
       return state.map(todo => {
@@ -61,11 +53,7 @@ export default function todosReducer(state = initialState, action) {
       })
     }
     case 'todos/todoClearCompleted': {
-      return state.filter(todo => {
-        if (!todo.completed) {
-          return todo
-        }
-      })
+      return state.filter(todo => !todo.completed)
     }
     default:
       return state
