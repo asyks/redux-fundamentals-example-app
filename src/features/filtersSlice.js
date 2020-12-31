@@ -13,7 +13,7 @@ export default function filtersReducer(state = initialState, action) {
     }
     case 'filters/colorFilterChanged': {
       const colors = new Set(...state.colors)
-      if (action.payload.changeType == 'selected') {
+      if (action.payload.changeType === 'selected') {
         colors.add(action.payload.color)
       }
       else {
@@ -21,7 +21,7 @@ export default function filtersReducer(state = initialState, action) {
       }
       return {
         ...state,
-        colors: [...colors.items]
+        colors: [...colors]
       }
     }
     default:
