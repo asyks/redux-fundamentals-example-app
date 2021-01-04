@@ -7,7 +7,8 @@ const unsubscribe = store.subscribe(() => {
   console.log('State after dispatch: ', store.getState())
 })
 
-store.dispatch({type: 'todos/todoAdded', payload: 'Learn about actions' })
+const result = store.dispatch({type: 'todos/todoAdded', payload: 'Learn about actions' })
+console.log(result)
 store.dispatch({ type: 'todos/todoAdded', payload: 'Learn about reducers' })
 store.dispatch({ type: 'todos/todoAdded', payload: 'Learn about stores' })
 

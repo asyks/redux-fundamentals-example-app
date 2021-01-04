@@ -19,3 +19,9 @@ export const loggerMiddleware = storeAPI => next => action => {
   console.log('next state', storeAPI.getState())
   return result
 }
+
+export const alwaysReturnHelloMiddleware = storeAPI => next => action => {
+  const originalResult = next(action)
+  // Ignore the original result, return something else
+  return 'Hello!'
+}
