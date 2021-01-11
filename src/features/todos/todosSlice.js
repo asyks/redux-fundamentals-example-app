@@ -19,6 +19,7 @@ export default function todosReducer(state = initialState, action) {
     }
     case 'todos/todoToggled': {
       return state.map(todo => {
+        console.log(todo, action.payload)
         if (todo.id !== action.payload) {
           return todo
         }
@@ -42,7 +43,7 @@ export default function todosReducer(state = initialState, action) {
       })
     }
     case 'todos/todoDelete': {
-      return state.filter(todo => todo.id !== action.payload.id)
+      return state.filter(todo => todo.id !== action.payload)
     }
     case 'todos/todoCompleteAll': {
       return state.map(todo => {
