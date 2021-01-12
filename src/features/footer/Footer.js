@@ -81,11 +81,20 @@ const Footer = () => {
 
   const { colors, status } = useSelector(state => state.filters)
 
-  const onColorChange = (color, changeType) =>
-    console.log('Color change: ', { color, changeType })
-  const onStatusChange = (status) => console.log('Status change: ', status)
-
   const dispatch = useDispatch()
+
+  const onColorChange = (color, changeType) => {
+    dispatch(
+      {
+        type: 'filters/colorFilterChanged',
+        payload: { color: color, changeType: changeType }
+      }
+    )
+  }
+
+  const onStatusChange = (status) => {
+    dispatch({type: 'filters/statusFilterChanged', payload: status})
+  }
 
   const handleCompleteAll = () => {
     dispatch({type: 'todos/todoCompleteAll'})
