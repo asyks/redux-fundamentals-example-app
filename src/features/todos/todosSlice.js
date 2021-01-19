@@ -1,3 +1,5 @@
+import { client } from "../../api/client"
+
 const initialState = []
 
 function nextTodoId(todos = []) {
@@ -56,7 +58,22 @@ export default function todosReducer(state = initialState, action) {
     case 'todos/todoClearCompleted': {
       return state.filter(todo => !todo.completed)
     }
+    case 'todos/todosLoaded': {
+      return action.payload
+    }
     default:
       return state
   }
+}
+
+export async function fetchTodos(dispatch, getState) {
+  const response = await client.get('/fakeApi/todos')
+
+  const stateBefore = getState()
+  console.log('Todos before dispatch: ', stateBefore.todos.length)
+
+  dispatch({type: "todos/todosLoaded", payload: response.todos})
+
+  const stateAfter = getState()
+  console.log('Todos after dispatch: ', stateAfter.todos.length)
 }

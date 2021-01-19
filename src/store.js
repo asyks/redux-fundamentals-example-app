@@ -1,11 +1,9 @@
 import { createStore, applyMiddleware } from 'redux'
-import rootReducer from './reducer'
+import thunkMiddleware from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { delayedMessageMiddleware } from './exampleAddons/middleware'
+import rootReducer from './reducer'
 
-const composedEnhancer = composeWithDevTools (
-  applyMiddleware(delayedMessageMiddleware)
-)
+const composedEnhancer = composeWithDevTools (applyMiddleware(thunkMiddleware))
 
 const store = createStore(rootReducer, undefined, composedEnhancer)
 export default store
