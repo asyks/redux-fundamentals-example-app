@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { saveNewTodo } from '../todos/todosSlice'
 
 const Header = () => {
   const [text, setText] = useState('')
@@ -11,7 +12,8 @@ const Header = () => {
     const trimmedText = e.target.value.trim()
     // If the user pressed the Enter key:
     if (e.which === 13 && trimmedText) {
-      dispatch({type: 'todos/todoAdded', payload: trimmedText})
+      // Create the thunk function and immediately dispatch it
+      dispatch(saveNewTodo(trimmedText))
       setText('')
     }
   }

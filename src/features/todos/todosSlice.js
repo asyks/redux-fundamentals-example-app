@@ -10,14 +10,7 @@ function nextTodoId(todos = []) {
 export default function todosReducer(state = initialState, action) {
   switch (action.type) {
     case 'todos/todoAdded': {
-      return [
-        ...state,
-        {
-          id: nextTodoId(state),
-          text: action.payload,
-          completed: false
-        }
-      ]
+      return [...state, action.payload]
     }
     case 'todos/todoToggled': {
       return state.map(todo => {
@@ -72,8 +65,16 @@ export async function fetchTodos(dispatch, getState) {
   const stateBefore = getState()
   console.log('Todos before dispatch: ', stateBefore.todos.length)
 
-  dispatch({type: "todos/todosLoaded", payload: response.todos})
+  dispatch({type: 'todos/todosLoaded', payload: response.todos})
 
   const stateAfter = getState()
   console.log('Todos after dispatch: ', stateAfter.todos.length)
+}
+
+export function saveNewTodo(text) {
+  return  async function saveNewTodoThunk(dispatch, getState) {
+    const initialTodo = { text }
+    const response = await client.post('/fakeApi/todos', {todo: initialTodo})
+    dispatch({type: 'todos/todoAdded', payload: response.todo})
+  }
 }
