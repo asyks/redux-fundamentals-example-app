@@ -54,19 +54,9 @@ export default function todosReducer(state = initialState, action) {
   }
 }
 
-export const todosLoaded = todos => {
-  return {
-    type: 'todos/todosLoaded',
-    payload: todos,
-  }
-}
+export const todosLoaded = todos => ({ type: 'todos/todosLoaded', payload: todos })
 
-export const todosAdded = todo => {
-  return {
-    type: 'todos/todoAdded',
-    payload: todo,
-  }
-}
+export const todosAdded = todo => ({ type: 'todos/todoAdded', payload: todo })
 
 export const fetchTodos = () => {
   return async dispatch => {
