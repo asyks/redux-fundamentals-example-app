@@ -1,4 +1,5 @@
-import { client } from "../../api/client"
+import { createSelector } from 'reselect'
+import { client } from '../../api/client'
 
 const initialState = []
 
@@ -72,3 +73,10 @@ export const saveNewTodo = text => {
     dispatch(todosAdded(response.todo))
   }
 }
+
+export const selectTodoIds = createSelector(
+  state => state.todos,
+  todos => todos.map(todo => todo.id),
+)
+
+export const selectTodosIdsPlain = state => state.todos.map(todo => todo.id)
