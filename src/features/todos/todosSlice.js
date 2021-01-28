@@ -109,3 +109,7 @@ export const selectFilteredTodoIds = createSelector(
   selectFilteredTodos,
   filteredTodos => filteredTodos.map(todo => todo.id),
 )
+
+export const selectTodoById = (state, todoId) => {
+  return state.todos.find(todo => todo.id === todoId)
+}
