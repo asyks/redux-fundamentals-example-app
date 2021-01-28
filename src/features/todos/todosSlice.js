@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import { client } from '../../api/client'
+import { StatusFilters } from '../filters/filtersSlice'
 
 const initialState = []
 
@@ -80,3 +81,31 @@ export const selectTodoIds = createSelector(
 )
 
 export const selectTodosIdsPlain = state => state.todos.map(todo => todo.id)
+
+export const selectFilteredTodos = createSelector(
+  state => state.todos,
+  state => state.filters,
+  (todos, filters) => {
+    const { status, colors } = filters
+
+    const showAllCompletions = status === StatusFilters.All
+    const showAllColors = colors.length === 0
+
+    if (showAllCompletions && showAllColors) {
+      return todos
+    }
+
+    const completedStatus = status === StatusFilters.Completed
+
+    return todos.filter(todo => {
+      const statusMatches = showAllCompletions || todo.completed === completedStatus
+      const colorMatches = showAllColors || colors.includes(todo.color)
+      return statusMatches && colorMatches
+    })
+  }
+)
+
+export const selectFilteredTodoIds = createSelector(
+  selectFilteredTodos,
+  filteredTodos => filteredTodos.map(todo => todo.id),
+)

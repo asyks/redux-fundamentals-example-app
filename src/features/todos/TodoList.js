@@ -2,10 +2,10 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 import TodoListItem from './TodoListItem'
-import { selectTodoIds } from './todosSlice'
+import { selectFilteredTodoIds } from './todosSlice'
 
 const TodoList = () => {
-  const todos = useSelector(selectTodoIds)
+  const todos = useSelector(selectFilteredTodoIds)
 
   const renderedListItems = todos.map((todoId) => {
     return <TodoListItem key={todoId} id={todoId} />
