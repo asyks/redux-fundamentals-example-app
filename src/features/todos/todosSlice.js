@@ -28,34 +28,46 @@ export default function todosReducer(state = initialState, action) {
             ...todo,
             completed: !todo.completed
           }
-        })
+        }),
       }
     }
     case 'todos/todoColorChange': {
-      return state.map(todo => {
-        if (todo.id !== action.payload.id) {
-          return todo
-        }
+      return {
+        ...state,
+        entities: state.entities.map(todo => {
+          if (todo.id !== action.payload.id) {
+            return todo
+          }
 
-        return {
-          ...todo,
-          color: action.payload.color
-        }
-      })
+          return {
+            ...todo,
+            color: action.payload.color
+          }
+        }),
+      }
     }
     case 'todos/todoDelete': {
-      return state.filter(todo => todo.id !== action.payload)
+      return {
+        ...state,
+        entities: state.entities.filter(todo => todo.id !== action.payload),
+      }
     }
     case 'todos/todoCompleteAll': {
-      return state.map(todo => {
-        return {
-          ...todo,
-          completed: true
-        }
-      })
+      return {
+        ...state,
+        entities: state.entities.map(todo => {
+          return {
+            ...todo,
+            completed: true
+          }
+        }),
+      }
     }
     case 'todos/todoClearCompleted': {
-      return state.filter(todo => !todo.completed)
+      return {
+        ...state,
+        entities: state.entities.filter(todo => !todo.completed),
+      }
     }
     case 'todos/todosLoading': {
       return {
