@@ -2,25 +2,34 @@ import { createSelector } from 'reselect'
 import { client } from '../../api/client'
 import { StatusFilters } from '../filters/filtersSlice'
 
-const initialState = []
+const initialState = {
+  status: 'idle',
+  entities: [],
+}
 
 export default function todosReducer(state = initialState, action) {
   switch (action.type) {
     case 'todos/todoAdded': {
-      return [...state, action.payload]
+      return {
+        ...state,
+        entities: [...state.entities, action.payload],
+      }
     }
     case 'todos/todoToggled': {
-      return state.map(todo => {
-        console.log(todo, action.payload)
-        if (todo.id !== action.payload) {
-          return todo
-        }
+      return {
+        ...state,
+        entities: state.entities.map(todo => {
+          console.log(todo, action.payload)
+          if (todo.id !== action.payload) {
+            return todo
+          }
 
-        return {
-          ...todo,
-          completed: !todo.completed
-        }
-      })
+          return {
+            ...todo,
+            completed: !todo.completed
+          }
+        })
+      }
     }
     case 'todos/todoColorChange': {
       return state.map(todo => {
