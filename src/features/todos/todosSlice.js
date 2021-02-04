@@ -3,7 +3,7 @@ import { client } from '../../api/client'
 import { StatusFilters } from '../filters/filtersSlice'
 
 const initialState = {
-  status: 'idle',
+  status: 'idle', // or: 'loading', 'succeeded', 'failed'
   entities: [],
 }
 
@@ -57,13 +57,25 @@ export default function todosReducer(state = initialState, action) {
     case 'todos/todoClearCompleted': {
       return state.filter(todo => !todo.completed)
     }
+    case 'todos/todosLoading': {
+      return {
+        ...state,
+        status: 'loading',
+      }
+    }
     case 'todos/todosLoaded': {
-      return action.payload
+      return {
+        ...state,
+        status: 'idle',
+        entities: action.payload,
+      }
     }
     default:
       return state
   }
 }
+
+export const todosLoading = () => ({ type: 'todos/todosLoading' })
 
 export const todosLoaded = todos => ({ type: 'todos/todosLoaded', payload: todos })
 
@@ -71,6 +83,7 @@ export const todosAdded = todo => ({ type: 'todos/todoAdded', payload: todo })
 
 export const fetchTodos = () => {
   return async dispatch => {
+    dispatch(todosLoading())
     const response = await client.get('/fakeApi/todos')
     dispatch(todosLoaded(response.todos))
   }
