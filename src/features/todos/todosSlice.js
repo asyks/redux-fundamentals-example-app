@@ -84,7 +84,7 @@ export const saveNewTodo = text => {
   }
 }
 
-export const selectTodos = state => state.todos
+export const selectTodos = state => state.todos.entities
 
 export const selectTodoById = (state, todoId) => {
   return selectTodos(state).find(todo => todo.id === todoId)
