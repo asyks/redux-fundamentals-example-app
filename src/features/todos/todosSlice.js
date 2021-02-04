@@ -84,15 +84,19 @@ export const saveNewTodo = text => {
   }
 }
 
+export const selectTodos = state => state.todos
+
+export const selectTodoById = (state, todoId) => {
+  return selectTodos(state).find(todo => todo.id === todoId)
+}
+
 export const selectTodoIds = createSelector(
-  state => state.todos,
+  selectTodos,
   todos => todos.map(todo => todo.id),
 )
 
-export const selectTodosIdsPlain = state => state.todos.map(todo => todo.id)
-
 export const selectFilteredTodos = createSelector(
-  state => state.todos,
+  selectTodos,
   state => state.filters,
   (todos, filters) => {
     const { status, colors } = filters
@@ -118,7 +122,3 @@ export const selectFilteredTodoIds = createSelector(
   selectFilteredTodos,
   filteredTodos => filteredTodos.map(todo => todo.id),
 )
-
-export const selectTodoById = (state, todoId) => {
-  return state.todos.find(todo => todo.id === todoId)
-}
