@@ -91,7 +91,7 @@ export const todosLoading = () => ({ type: 'todos/todosLoading' })
 
 export const todosLoaded = todos => ({ type: 'todos/todosLoaded', payload: todos })
 
-export const todosAdded = todo => ({ type: 'todos/todoAdded', payload: todo })
+export const todoAdded = todo => ({ type: 'todos/todoAdded', payload: todo })
 
 export const fetchTodos = () => {
   return async dispatch => {
@@ -105,7 +105,7 @@ export const saveNewTodo = text => {
   return  async dispatch => {
     const initialTodo = { text }
     const response = await client.post('/fakeApi/todos', {todo: initialTodo})
-    dispatch(todosAdded(response.todo))
+    dispatch(todoAdded(response.todo))
   }
 }
 
