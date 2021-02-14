@@ -75,8 +75,11 @@ const ColorFilters = ({ value: colors, onChange }) => {
 
 const Footer = () => {
   const todosRemaining = useSelector(state => {
-    const uncompletedTasks = state.todos.entities.filter(todos => !todos.compeleted)
-    return uncompletedTasks.length
+    let uncompletedTasks = 0
+    Object.values(state).forEach(todos => {
+      if (!todos.compeleted) uncompletedTasks++
+    })
+    return uncompletedTasks
   })
 
   const { colors, status } = useSelector(state => state.filters)
