@@ -17,7 +17,7 @@ const TodoListItem = ({ id }) => {
   }
 
   const handleColorChanged = (e) => {
-    dispatch({type: "todos/todoColorChange", payload: {id: id, color: e.target.value }})
+    dispatch({type: "todos/todoColorChange", payload: {todoId: id, color: e.target.value }})
   }
 
   const handleDelete = () => {

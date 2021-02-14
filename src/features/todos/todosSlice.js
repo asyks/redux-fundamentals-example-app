@@ -23,7 +23,7 @@ export default function todosReducer(state = initialState, action) {
         ...state,
         entities: {
           ...state.entities,
-          todoId: {
+          [todoId]: {
             ...todo,
             completed: !todo.completed
           },
@@ -37,10 +37,10 @@ export default function todosReducer(state = initialState, action) {
         ...state,
         entities: {
           ...state.entities,
-          todoId: {
+          [todoId]: {
             ...todo,
             color: color
-          }
+          },
         }
       }
     }
