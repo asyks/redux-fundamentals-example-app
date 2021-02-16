@@ -99,11 +99,15 @@ export default function todosReducer(state = initialState, action) {
   }
 }
 
+/* Action creators */
+
 export const todosLoading = () => ({ type: 'todos/todosLoading' })
 
 export const todosLoaded = todos => ({ type: 'todos/todosLoaded', payload: todos })
 
 export const todoAdded = todo => ({ type: 'todos/todoAdded', payload: todo })
+
+/* Thunks */
 
 export const fetchTodos = () => {
   return async dispatch => {
@@ -120,6 +124,8 @@ export const saveNewTodo = text => {
     dispatch(todoAdded(response.todo))
   }
 }
+
+/* Selectors */
 
 export const selectTodosEntities = state => state.todos.entities
 
