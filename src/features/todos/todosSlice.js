@@ -127,16 +127,25 @@ export const saveNewTodo = text => {
 
 /* Selectors */
 
+export const selectTodosStatusValue = state => state.todos.status
+
 export const selectTodosEntities = state => state.todos.entities
+
+export const selectTodoByIdValue = todoId => {
+  return (state) => {
+    return selectTodosEntities(state)[todoId]
+  }
+}
+
+export const selectTodosStatus = createSelector(
+  selectTodosStatusValue,
+  status => status
+)
 
 export const selectTodos = createSelector(
   selectTodosEntities,
   entities => Object.values(entities)
 )
-
-export const selectTodoById = (state, todoId) => {
-  return selectTodosEntities(state)[todoId]
-}
 
 export const selectFilteredTodos = createSelector(
   selectTodos,
@@ -161,7 +170,25 @@ export const selectFilteredTodos = createSelector(
   }
 )
 
+export const selectTodosRemainingCount = createSelector(
+  selectTodos,
+  todos => {
+    let uncompletedTasks = 0
+    todos.forEach(todos => {
+      if (!todos.compeleted) uncompletedTasks++
+    })
+    return uncompletedTasks
+  }
+)
+
 export const selectFilteredTodoIds = createSelector(
   selectFilteredTodos,
   filteredTodos => filteredTodos.map(todo => todo.id),
 )
+
+export const selectTodoById = todoId => {
+  return createSelector(
+    selectTodoByIdValue(todoId),
+    todo => todo
+  )
+}
