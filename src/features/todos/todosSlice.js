@@ -20,27 +20,19 @@ export const todosSlice = createSlice({
         const todo = state.entities[todoId]
         todo.completed = !todo.completed
       },
-      todoColorChanged(state, action) {
-        const { color, todoId } = action.payload
-        const todo = state.entities[todoId]
-        return {
-          ...state,
-          entities: {
-            ...state.entities,
-            [todoId]: {
-              ...todo,
-              color: color
-            },
+      todoColorChanged: {
+        reducer(state, action) {
+          const { color, todoId } = action.payload
+          state.entities[todoId].color = color
+        },
+        prepare(todoId, color) {
+          return {
+            payload: { todoId, color }
           }
         }
       },
       todoDeleted(state, action) {
-        const newEntities = {...state.entities}
-        delete newEntities[action.payload]
-        return {
-          ...state,
-          entities: newEntities
-        }
+        delete state.entities[action.payload]
       },
       todoCompleteAll(state, action) {
         const newEntities = {...state.entities}
@@ -87,8 +79,14 @@ export const todosSlice = createSlice({
     }
   }
 )
+
 /* Action creators */
-export const { todoAdded, todoToggled } = todosSlice.actions
+export const {
+  todoAdded,
+  todoToggled,
+  todoColorChanged,
+  todoDeleted
+} = todosSlice.actions
 
 export const todosLoading = () => ({ type: 'todos/todosLoading' })
 
@@ -97,10 +95,6 @@ export const todoCompleteAll = () => ({type: 'todos/todoCompleteAll'})
 export const todoClearCompleted = () => ({type: 'todos/todoClearCompleted'})
 
 export const todosLoaded = todos => ({ type: 'todos/todosLoaded', payload: todos })
-
-export const todoDeleted = todoId => ({type: "todos/todoDeleted", payload: todoId })
-
-export const todoColorChanged = (todoId, color) => ({type: "todos/todoColorChanged", payload: {todoId, color }})
 
 /* Thunks */
 
