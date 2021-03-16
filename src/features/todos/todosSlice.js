@@ -99,8 +99,8 @@ export const todosSlice = createSlice({
     }
   }
 )
-
 /* Action creators */
+export const { todoAdded, todoToggled } = todosSlice.actions
 
 export const todosLoading = () => ({ type: 'todos/todosLoading' })
 
@@ -110,11 +110,7 @@ export const todoClearCompleted = () => ({type: 'todos/todoClearCompleted'})
 
 export const todosLoaded = todos => ({ type: 'todos/todosLoaded', payload: todos })
 
-export const todoAdded = todo => ({ type: 'todos/todoAdded', payload: todo })
-
 export const todoDeleted = todoId => ({type: "todos/todoDeleted", payload: todoId })
-
-export const todoToggled = todoId => ({type: "todos/todoToggled", payload: todoId })
 
 export const todoColorChanged = (todoId, color) => ({type: "todos/todoColorChanged", payload: {todoId, color }})
 
