@@ -13,24 +13,12 @@ export const todosSlice = createSlice({
     reducers: {
       todoAdded(state, action) {
         const todo = action.payload
-        return {
-          ...state,
-          entities: {...state.entities, [todo.id]: todo},
-        }
+        state.entities[todo.id] = todo
       },
       todoToggled(state, action) {
         const todoId = action.payload
         const todo = state.entities[todoId]
-        return {
-          ...state,
-          entities: {
-            ...state.entities,
-            [todoId]: {
-              ...todo,
-              completed: !todo.completed
-            },
-          }
-        }
+        todo.completed = !todo.completed
       },
       todoColorChanged(state, action) {
         const { color, todoId } = action.payload
