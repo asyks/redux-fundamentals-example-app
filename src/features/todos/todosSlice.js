@@ -46,11 +46,8 @@ export const todosSlice = createSlice({
           }
         })
       },
-      todosLoading(state, action) {
-        return {
-          ...state,
-          status: 'loading',
-        }
+      todosLoading(state) {
+          state.status = 'loading'
       },
       todosLoaded(state, action) {
         const newEntities = {}
@@ -74,10 +71,9 @@ export const {
   todoColorChanged,
   todoDeleted,
   todoCompleteAll,
-  todoClearCompleted
+  todoClearCompleted,
+  todosLoading,
 } = todosSlice.actions
-
-export const todosLoading = () => ({ type: 'todos/todosLoading' })
 
 export const todosLoaded = todos => ({ type: 'todos/todosLoaded', payload: todos })
 
