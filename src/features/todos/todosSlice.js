@@ -50,15 +50,11 @@ export const todosSlice = createSlice({
           state.status = 'loading'
       },
       todosLoaded(state, action) {
-        const newEntities = {}
-        action.payload.forEach(todo => {
-          newEntities[todo.id] = todo
+        const newTodos = action.payload
+        newTodos.forEach(todo => {
+          state.entities[todo.id] = todo
         })
-        return {
-          ...state,
-          status: 'idle',
-          entities: newEntities
-        }
+        state.status = 'idle'
       },
     }
   }
@@ -73,9 +69,8 @@ export const {
   todoCompleteAll,
   todoClearCompleted,
   todosLoading,
+  todosLoaded,
 } = todosSlice.actions
-
-export const todosLoaded = todos => ({ type: 'todos/todosLoaded', payload: todos })
 
 /* Thunks */
 
