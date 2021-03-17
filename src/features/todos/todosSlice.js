@@ -39,17 +39,12 @@ export const todosSlice = createSlice({
           state.entities[todo.id].completed = true
         })
       },
-      todoClearCompleted(state, action) {
-        const newEntities = {...state.entities}
-        Object.values(newEntities).forEach(todo => {
+      todoClearCompleted(state) {
+        Object.values(state.entities).forEach(todo => {
           if (todo.completed) {
-            delete newEntities[todo.id]
+            delete state.entities[todo.id]
           }
         })
-        return {
-          ...state,
-          entities: newEntities
-        }
       },
       todosLoading(state, action) {
         return {
@@ -79,11 +74,10 @@ export const {
   todoColorChanged,
   todoDeleted,
   todoCompleteAll,
+  todoClearCompleted
 } = todosSlice.actions
 
 export const todosLoading = () => ({ type: 'todos/todosLoading' })
-
-export const todoClearCompleted = () => ({type: 'todos/todoClearCompleted'})
 
 export const todosLoaded = todos => ({ type: 'todos/todosLoaded', payload: todos })
 
