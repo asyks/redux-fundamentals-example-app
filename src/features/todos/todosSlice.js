@@ -68,10 +68,8 @@ export const todosSlice = createSlice({
           state.status = 'loading'
         })
         .addCase(fetchTodos.fulfilled, (state, action) => {
-          const newTodos = action.payload
-          newTodos.forEach(todo => {
-            state.entities[todo.id] = todo
-          })
+          // Use adapter function inside a reducer to add initial todos
+          todosAdapter.setAll(state, action.payload)
           state.status = 'idle'
         })
         // Use another adapter function as a reducer to add a todo
@@ -93,6 +91,10 @@ export const {
 
 /* Selectors */
 
+export const {
+  selectAll: selectTodos,
+} = todosAdapter.getSelectors(state => state.todos)
+
 export const selectTodosStatusValue = state => state.todos.status
 
 export const selectTodosEntities = state => state.todos.entities
@@ -106,11 +108,6 @@ export const selectTodoByIdValue = todoId => {
 export const selectTodosStatus = createSelector(
   selectTodosStatusValue,
   status => status
-)
-
-export const selectTodos = createSelector(
-  selectTodosEntities,
-  entities => Object.values(entities)
 )
 
 export const selectFilteredTodos = createSelector(
