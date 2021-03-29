@@ -7,7 +7,7 @@ import { availableColors, capitalize } from '../filters/colors'
 import {selectTodoById, todoColorChanged, todoDeleted, todoToggled} from './todosSlice'
 
 const TodoListItem = ({ id }) => {
-  const todo = useSelector(selectTodoById(id))
+  const todo = useSelector(state => selectTodoById(state, id))
   const { text, completed, color } = todo
 
   const dispatch = useDispatch()

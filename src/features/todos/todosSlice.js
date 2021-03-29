@@ -93,17 +93,12 @@ export const {
 
 export const {
   selectAll: selectTodos,
+  selectById: selectTodoById,
 } = todosAdapter.getSelectors(state => state.todos)
 
 export const selectTodosStatusValue = state => state.todos.status
 
 export const selectTodosEntities = state => state.todos.entities
-
-export const selectTodoByIdValue = todoId => {
-  return (state) => {
-    return selectTodosEntities(state)[todoId]
-  }
-}
 
 export const selectTodosStatus = createSelector(
   selectTodosStatusValue,
@@ -148,12 +143,5 @@ export const selectFilteredTodoIds = createSelector(
   selectFilteredTodos,
   filteredTodos => filteredTodos.map(todo => todo.id),
 )
-
-export const selectTodoById = todoId => {
-  return createSelector(
-    selectTodoByIdValue(todoId),
-    todo => todo
-  )
-}
 
 export default todosSlice.reducer
