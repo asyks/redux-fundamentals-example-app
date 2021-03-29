@@ -1,11 +1,18 @@
-import { createSlice, createSelector, createAsyncThunk } from '@reduxjs/toolkit'
+import {
+  createSlice,
+  createSelector,
+  createAsyncThunk,
+  createEntityAdapter
+} from '@reduxjs/toolkit'
 import { client } from '../../api/client'
 import { StatusFilters } from '../filters/filtersSlice'
 
-const initialState = {
+const todosAdapter = createEntityAdapter()
+
+
+const initialState = todosAdapter.getInitialState({
   status: 'idle', // or: 'loading', 'succeeded', 'failed'
-  entities: {},
-}
+})
 
 /* Thunks */
 
@@ -40,20 +47,19 @@ export const todosSlice = createSlice({
           }
         }
       },
-      todoDeleted(state, action) {
-        delete state.entities[action.payload]
-      },
+      // Use an adapter reducer function to remove a todo by ID
+      todoDeleted: todosAdapter.removeOne,
       todoCompleteAll(state) {
         Object.values(state.entities).forEach(todo => {
           state.entities[todo.id].completed = true
         })
       },
       todoClearCompleted(state) {
-        Object.values(state.entities).forEach(todo => {
-          if (todo.completed) {
-            delete state.entities[todo.id]
-          }
-        })
+        const completedIds = Object.values(state.entities)
+        .filter(todo => todo.completed)
+        .map(todo => todo.id)
+        // Use an adapter function as a "mutating" update helper
+        todosAdapter.removeMany(state, completedIds)
       },
     },
     extraReducers: builder => {
@@ -68,10 +74,8 @@ export const todosSlice = createSlice({
           })
           state.status = 'idle'
         })
-        .addCase(saveNewTodo.fulfilled, (state, action) => {
-          const todo = action.payload
-          state.entities[todo.id] = todo
-        })
+        // Use another adapter function as a reducer to add a todo
+        .addCase(saveNewTodo.fulfilled, todosAdapter.addOne)
     },
   }
 )
